@@ -1,34 +1,46 @@
 <div align="center">
 
-# 🌱 EcoTrip
+<h1>🌱 EcoTrip</h1>
 
-**Calcule a emissão de CO₂ da sua viagem e quanto custa compensá-la.**
+<p><b>Descubra quanto CO₂ a sua viagem emite e quanto custa compensá-la.</b></p>
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-puro-F7DF1E?logo=javascript&logoColor=black)
-![Testes](https://img.shields.io/badge/testes-fast--check-2E7D32)
-![GitHub Pages](https://img.shields.io/badge/deploy-GitHub%20Pages-222?logo=github)
+<p>
+  <img alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white">
+  <img alt="CSS3" src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white">
+  <img alt="JavaScript puro" src="https://img.shields.io/badge/JavaScript-puro-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
+</p>
+<p>
+  <img alt="Testes com fast-check" src="https://img.shields.io/badge/testes-54%20passando-2E7D32?style=flat-square">
+  <img alt="Sem dependências na página" src="https://img.shields.io/badge/depend%C3%AAncias%20na%20p%C3%A1gina-0-2E7D32?style=flat-square">
+  <img alt="Deploy no GitHub Pages" src="https://img.shields.io/badge/deploy-GitHub%20Pages-222?style=flat-square&logo=github">
+</p>
 
-[🌐 Abrir o site](https://gtvnv.github.io/EcoTrip/) · [🧮 Como o cálculo funciona](#-como-o-cálculo-funciona) · [🧪 Rodar os testes](#-como-rodar-e-testar)
+<h3>
+  <a href="https://gtvnv.github.io/EcoTrip/">🌐 Abrir o site</a>
+  &nbsp;·&nbsp;
+  <a href="#-como-o-cálculo-funciona">🧮 Cálculo</a>
+  &nbsp;·&nbsp;
+  <a href="#-como-rodar-e-testar">🧪 Testes</a>
+</h3>
 
 </div>
 
 > [!NOTE]
-> A URL acima é a esperada após o primeiro deploy no GitHub Pages. Ela só funciona depois que o workflow rodar com sucesso.
+> A URL do site é a esperada após o primeiro deploy no GitHub Pages. Ela só funciona depois que o workflow rodar com sucesso.
 
 ---
 
 ## 📋 Índice
 
-- [Visão geral](#-visão-geral)
-- [Como o cálculo funciona](#-como-o-cálculo-funciona)
-- [Modais e fatores de emissão](#-modais-e-fatores-de-emissão)
-- [Estrutura do projeto](#-estrutura-do-projeto)
-- [Como rodar e testar](#-como-rodar-e-testar)
-- [Ordem de construção](#-ordem-de-construção)
-- [Prompt que funcionou bem](#-prompt-que-funcionou-bem)
-- [Ideias futuras](#-ideias-futuras)
+[Visão geral](#-visão-geral) ·
+[Como o cálculo funciona](#-como-o-cálculo-funciona) ·
+[Modais e fatores](#-modais-e-fatores-de-emissão) ·
+[Arquitetura](#-arquitetura) ·
+[Estrutura](#-estrutura-do-projeto) ·
+[Como rodar e testar](#-como-rodar-e-testar) ·
+[Ordem de construção](#-ordem-de-construção) ·
+[Prompt](#-prompt-que-funcionou-bem) ·
+[Ideias futuras](#-ideias-futuras)
 
 ## ✨ Visão geral
 
@@ -42,23 +54,40 @@ A EcoTrip calcula a emissão de CO2 de uma viagem e o custo estimado para compen
 4. Selecione o modal de transporte.
 5. Clique em calcular e leia o resultado, a comparação entre modais e os créditos.
 
+### O que você vê na tela
+
+| 📍 Resultado | 📊 Comparação | 🌳 Créditos |
+|:--|:--|:--|
+| Distância, modal e emissão em kg de CO2 | Os quatro modais lado a lado, em barras, do que menos emite ao que mais emite | Créditos de carbono e custo estimado para compensar |
+
 ## 🧮 Como o cálculo funciona
 
-Os valores vêm de `config.js` (fatores de emissão e preço do crédito) e de `rotas.js` (distâncias). As etapas seguem esta ordem:
+Os valores vêm de `config.js` (fatores de emissão e preço do crédito) e de `rotas.js` (distâncias).
+
+```mermaid
+flowchart LR
+    A["📍 Origem e destino"] --> B["📏 Distância (km)"]
+    M["✍️ Distância manual<br/>(tem prioridade)"] --> B
+    B --> C["💨 Emissão (kg CO2)"]
+    F["⚙️ Fator do modal<br/>(g/km)"] --> C
+    C --> D["🌳 Créditos"]
+    D --> E["💰 Custo (R$)"]
+    P["🏷️ Preço do crédito"] --> E
+```
 
 | # | Etapa | Fórmula |
-|---|-------|---------|
+|:-:|-------|---------|
 | 1 | **Distância (km)** | `obterDistancia(origem, destino)` na base de rotas. A ordem das cidades não importa. Uma distância manual válida (maior que 0 e até 20.000 km) tem prioridade. |
 | 2 | **Emissão (kg de CO2)** | `distância (km) × fator (g/km) ÷ 1000` |
 | 3 | **Créditos de carbono** | `emissão (kg) ÷ 1000` (1 crédito compensa 1 tonelada de CO2) |
 | 4 | **Custo de compensação (R$)** | `créditos × preço do crédito` |
 
-### Exemplo numérico
+### 🔢 Exemplo numérico
 
 Rota **São Paulo → Rio de Janeiro** de **carro**:
 
 | Etapa | Conta | Resultado |
-|-------|-------|-----------|
+|-------|-------|----------:|
 | Distância | valor da base de rotas | **430 km** |
 | Emissão | 430 × 170 ÷ 1000 | **73,10 kg de CO2** |
 | Créditos | 73,10 ÷ 1000 | **0,0731 crédito** |
@@ -68,18 +97,35 @@ Rota **São Paulo → Rio de Janeiro** de **carro**:
 > Esses valores foram conferidos executando `calculator.js` e `config.js` em Node. A tela mostra a emissão com 2 casas, os créditos com 4 e o custo com 2, com arredondamento meio para cima.
 
 > [!WARNING]
-> Todos os valores são estimativas, apenas para fins informativos. Fatores de emissão, distâncias e preço do crédito variam conforme a fonte.
+> Todos os valores são estimativas, apenas para fins informativos. Fatores de emissão, distâncias e preço do crédito são valores de referência aproximados e variam conforme a fonte. Confira-os antes de usar em relatórios.
 
 ## 🚗 Modais e fatores de emissão
 
-| Modal | Fator (g CO2/km) |
-|-------|-----------------:|
-| 🚲 Bicicleta | 0 |
-| 🚗 Carro | 170 |
-| 🚌 Ônibus | 100 |
-| 🚚 Caminhão | 900 |
+| Modal | Fator (g CO2/km) | Comparado ao carro |
+|-------|-----------------:|-------------------:|
+| 🚲 Bicicleta | 0 | sem emissão |
+| 🚌 Ônibus | 100 | 41% menos |
+| 🚗 Carro | 170 | referência |
+| 🚚 Caminhão | 900 | 5,3 vezes mais |
 
 Preço do crédito: **R$ 50,00 por tonelada de CO2**. Os fatores e o preço ficam em `config.js`, com unidade e fonte comentadas em cada valor.
+
+## 🏛️ Arquitetura
+
+O código separa cálculo, tela e orquestração. A `Calculadora` não conhece o DOM, o que a torna fácil de testar.
+
+```mermaid
+flowchart TD
+    APP["app.js<br/><b>Aplicacao</b><br/>valida o formulário e orquestra"]
+    UI["ui.js<br/><b>Interface</b><br/>só mexe no DOM"]
+    CALC["calculator.js<br/><b>Calculadora</b><br/>funções puras, sem DOM"]
+    CFG["config.js<br/>fatores e preço"]
+    ROT["rotas.js<br/>cidades e distâncias"]
+    APP --> UI
+    APP --> CALC
+    CALC --> CFG
+    CALC --> ROT
+```
 
 ## 🗂️ Estrutura do projeto
 
@@ -107,7 +153,16 @@ npm install
 npm test
 ```
 
-Os testes usam `fast-check` (propriedades) e `jsdom` (interface). Eles são só de desenvolvimento e não vão para o site publicado.
+<details>
+<summary>🧪 O que os testes cobrem</summary>
+
+- **13 propriedades** com `fast-check`: emissão, validação de entradas e da configuração, distâncias, créditos e custo, formatação, comparação de modais e autocomplete.
+- **Testes unitários** da Calculadora e da Interface (com `jsdom`).
+- **Testes de fumaça** da estrutura do HTML, do CSS (cores só em variáveis, classes BEM) e da ausência de chaves de API.
+
+Eles são só de desenvolvimento e não vão para o site publicado.
+
+</details>
 
 ## 🏗️ Ordem de construção
 
@@ -136,3 +191,9 @@ lançar um erro que identifique o parâmetro.
 3. Soma de várias viagens.
 4. API de mapas para obter a distância.
 5. Back-end em Python.
+
+---
+
+<div align="center">
+<sub>Feito com 💚 em HTML, CSS e JavaScript puros.</sub>
+</div>
