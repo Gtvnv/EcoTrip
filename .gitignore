@@ -1,0 +1,9 @@
+# Segredos e credenciais
+.env
+.env.*
+*.pem
+*.key
+credentials*.json
+
+# Dependências
+node_modules/

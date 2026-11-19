@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EcoTrip - Calculadora de CO2 de viagens</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="pagina">
+  <header class="cabecalho">
+    <h1 class="cabecalho__titulo">EcoTrip</h1>
+    <p class="cabecalho__subtitulo">Calcule a emissão de CO2 da sua viagem e o custo para compensá-la.</p>
+  </header>
+
+  <main class="principal">
+    <section class="formulario" id="secao-formulario" aria-labelledby="formulario-titulo">
+      <h2 class="formulario__titulo" id="formulario-titulo">Sua viagem</h2>
+
+      <form class="formulario__corpo" id="formulario-viagem" novalidate>
+        <div class="formulario__campo">
+          <label class="formulario__rotulo" for="campo-origem">Origem</label>
+          <div class="autocomplete">
+            <input class="formulario__entrada" type="text" id="campo-origem" name="origem"
+                   autocomplete="off" role="combobox" aria-autocomplete="list"
+                   aria-expanded="false" aria-controls="sugestoes-origem">
+            <ul class="sugestoes" id="sugestoes-origem" role="listbox" aria-label="Sugestões de origem" hidden></ul>
+          </div>
+          <div class="formulario__erro" id="erro-origem" role="alert"></div>
+        </div>
+
+        <div class="formulario__campo">
+          <label class="formulario__rotulo" for="campo-destino">Destino</label>
+          <div class="autocomplete">
+            <input class="formulario__entrada" type="text" id="campo-destino" name="destino"
+                   autocomplete="off" role="combobox" aria-autocomplete="list"
+                   aria-expanded="false" aria-controls="sugestoes-destino">
+            <ul class="sugestoes" id="sugestoes-destino" role="listbox" aria-label="Sugestões de destino" hidden></ul>
+          </div>
+          <div class="formulario__erro" id="erro-destino" role="alert"></div>
+        </div>
+
+        <div class="formulario__campo">
+          <label class="formulario__rotulo" for="campo-distancia-manual">Distância manual (km)</label>
+          <input class="formulario__entrada" type="number" id="campo-distancia-manual"
+                 name="distancia-manual" step="0.01" min="0" inputmode="decimal">
+          <div class="formulario__erro" id="erro-distancia-manual" role="alert"></div>
+        </div>
+
+        <fieldset class="modais">
+          <legend class="modais__legenda">Modal de transporte</legend>
+          <div class="modais__opcao">
+            <input class="modais__radio" type="radio" id="modal-bicicleta" name="modal" value="bicicleta">
+            <label class="modais__rotulo" for="modal-bicicleta">Bicicleta</label>
+          </div>
+          <div class="modais__opcao">
+            <input class="modais__radio" type="radio" id="modal-carro" name="modal" value="carro">
+            <label class="modais__rotulo" for="modal-carro">Carro</label>
+          </div>
+          <div class="modais__opcao">
+            <input class="modais__radio" type="radio" id="modal-onibus" name="modal" value="onibus">
+            <label class="modais__rotulo" for="modal-onibus">Ônibus</label>
+          </div>
+          <div class="modais__opcao">
+            <input class="modais__radio" type="radio" id="modal-caminhao" name="modal" value="caminhao">
+            <label class="modais__rotulo" for="modal-caminhao">Caminhão</label>
+          </div>
+          <div class="formulario__erro" id="erro-modal" role="alert"></div>
+        </fieldset>
+
+        <button class="formulario__botao" type="submit" id="botao-calcular">Calcular</button>
+        <div class="formulario__erro" id="erro-geral" role="alert"></div>
+      </form>
+    </section>
+
+    <section class="resultado" id="secao-resultado" aria-labelledby="resultado-titulo" hidden>
+      <h2 class="resultado__titulo" id="resultado-titulo">Resultado da viagem</h2>
+      <div class="resultado__erro" id="erro-resultado" role="alert"></div>
+      <dl class="resultado__lista" id="resultado-conteudo"></dl>
+    </section>
+
+    <section class="comparacao" id="secao-comparacao" aria-labelledby="comparacao-titulo" hidden>
+      <h2 class="comparacao__titulo" id="comparacao-titulo">Comparação entre modais</h2>
+      <p class="comparacao__mensagem" id="comparacao-mensagem"></p>
+      <ol class="comparacao__lista" id="comparacao-conteudo"></ol>
+    </section>
+
+    <section class="creditos" id="secao-creditos" aria-labelledby="creditos-titulo" hidden>
+      <h2 class="creditos__titulo" id="creditos-titulo">Créditos de carbono</h2>
+      <div class="creditos__erro" id="erro-creditos" role="alert"></div>
+      <dl class="creditos__lista" id="creditos-conteudo"></dl>
+      <p class="creditos__mensagem" id="creditos-mensagem"></p>
+      <p class="creditos__aviso" id="creditos-aviso"></p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    <p class="rodape__texto">EcoTrip - valores estimados, apenas para fins informativos.</p>
+  </footer>
+
+  <script src="rotas.js"></script>
+  <script src="config.js"></script>
+  <script src="calculator.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

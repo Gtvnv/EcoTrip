@@ -1,0 +1,13 @@
+{
+  "name": "ecotrip",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Ferramentas de desenvolvimento (testes) da EcoTrip. Não é carregado pela página.",
+  "scripts": {
+    "test": "node --test tests/"
+  },
+  "devDependencies": {
+    "fast-check": "^4.10.3",
+    "jsdom": "^29.1.1"
+  }
+}
